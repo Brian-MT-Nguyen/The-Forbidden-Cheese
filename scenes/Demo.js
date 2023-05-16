@@ -101,6 +101,7 @@ class Demo extends Phaser.Scene {
         // allow steady velocity change up to a certain key down duration
         // see: https://photonstorm.github.io/phaser3-docs/Phaser.Input.Keyboard.html#.DownDuration__anchor
 	    if(this.jumps > 0 && Phaser.Input.Keyboard.DownDuration(cursors.up, 150)) {
+            console.log("test");
 	        this.mouse.body.velocity.y = this.JUMP_VELOCITY;
 	        this.jumping = true;
 	    }
