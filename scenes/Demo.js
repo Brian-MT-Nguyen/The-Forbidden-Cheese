@@ -4,11 +4,11 @@ class Demo extends Phaser.Scene {
     }
 
     preload() {
-        this.load.image('cloud', 'assets/Cloud.png');
-        this.load.image('mouse', 'assets/Mouse.png');
+        this.load.image('cloud' , 'assets/Cloud.png');
+        this.load.image('mouse' , 'assets/Mouse.png');
         this.load.image('cheese', 'assets/Cheese.png');
-        this.load.image('dirt', 'assets/Dirt.png');
-        this.load.image('grass', 'assets/Grass.png');
+        this.load.image('dirt'  , 'assets/Dirt.png');
+        this.load.image('grass' , 'assets/Grass.png');
     }
 
     create() {
@@ -16,25 +16,25 @@ class Demo extends Phaser.Scene {
         this.ACCELERATION = 1500;
         this.MAX_X_VEL = 500;   // pixels/second
         this.MAX_Y_VEL = 5000;
-        this.DRAG = 100;    // DRAG < ACCELERATION = icy slide
+        this.DRAG = 600;    // DRAG < ACCELERATION = icy slide
         this.MAX_JUMPS = 2; // change for double/triple/etc. jumps 🤾‍♀️
         this.JUMP_VELOCITY = -1100;
         this.physics.world.gravity.y = 5000;
 
         // Debugging: draw grid lines for jump height reference
-        let graphics = this.add.graphics();
-        graphics.lineStyle(2, 0xFFFFFF, 0.1);
-	    for(let y = game.config.height-70; y >= 35; y -= 35) {
-            graphics.lineBetween(0, y, game.config.width, y);
-        }
+        // let graphics = this.add.graphics();
+        // graphics.lineStyle(2, 0xFFFFFF, 0.1);
+	    // for(let y = game.config.height-70; y >= 35; y -= 35) {
+        //     graphics.lineBetween(0, y, game.config.width, y);
+        // }
 
         // print Scene name
         this.add.text(game.config.width/2, 30, 'Scene 4: Variable-Height/Multi Jumps', { font: '32px Futura', fill: '#FFFFFF' }).setOrigin(0.5);
 
-        this.cloud01 = this.physics.add.sprite(600, 200, 'cloud').setOrigin(0.5,0.5).setScale(0.1);
-        this.cloud01.body.setAllowGravity(false).setVelocityX(25);
-        this.cloud02 = this.physics.add.sprite(200, 300, 'cloud').setOrigin(0.5,0.5).setScale(0.1);
-        this.cloud02.body.setAllowGravity(false).setVelocityX(45);
+        // this.cloud01 = this.physics.add.sprite(600, 200, 'cloud').setOrigin(0.5,0.5).setScale(0.1);
+        // this.cloud01.body.setAllowGravity(false).setVelocityX(25);
+        // this.cloud02 = this.physics.add.sprite(200, 300, 'cloud').setOrigin(0.5,0.5).setScale(0.1);
+        // this.cloud02.body.setAllowGravity(false).setVelocityX(45);
 
         // make ground tiles group
         this.ground = this.add.group();
@@ -112,8 +112,8 @@ class Demo extends Phaser.Scene {
 	    }
 
         // wrap physics object(s) .wrap(gameObject, padding)
-        this.physics.world.wrap(this.cloud01, this.cloud01.width/2);
-        this.physics.world.wrap(this.cloud02, this.cloud02.width/2);
+        // this.physics.world.wrap(this.cloud01, this.cloud01.width/2);
+        // this.physics.world.wrap(this.cloud02, this.cloud02.width/2);
     }
 
     collectCheese (mouse, cheese)
