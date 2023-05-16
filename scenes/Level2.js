@@ -1,6 +1,6 @@
-class Demo extends Phaser.Scene {
+class Level2 extends Phaser.Scene {
     constructor() {
-        super('demo');
+        super('level2');
     }
 
     preload() {
@@ -14,22 +14,23 @@ class Demo extends Phaser.Scene {
     create() {
         // variables and settings
         this.ACCELERATION = 1500;
-        this.MAX_X_VEL = 500;   // pixels/second
+        this.MAX_X_VEL = 1000;   // pixels/second
         this.MAX_Y_VEL = 5000;
-        this.DRAG = 600;    // DRAG < ACCELERATION = icy slide
+        this.DRAG = 1200;    // DRAG < ACCELERATION = icy slide
         this.MAX_JUMPS = 2; // change for double/triple/etc. jumps 🤾‍♀️
-        this.JUMP_VELOCITY = -1100;
+        this.JUMP_VELOCITY = -1600;
         this.physics.world.gravity.y = 5000;
 
         // Debugging: draw grid lines for jump height reference
-        // let graphics = this.add.graphics();
-        // graphics.lineStyle(2, 0xFFFFFF, 0.1);
-	    // for(let y = game.config.height-70; y >= 35; y -= 35) {
-        //     graphics.lineBetween(0, y, game.config.width, y);
-        // }
+        let graphics = this.add.graphics();
+        graphics.lineStyle(2, 0xFFFFFF, 0.1);
+	    for(let y = game.config.height-70; y >= 35; y -= 35) {
+            graphics.lineBetween(0, y, game.config.width, y);
+        }
 
-        // print Scene name
-        this.add.text(game.config.width/2, 30, 'Scene 4: Variable-Height/Multi Jumps', { font: '32px Futura', fill: '#FFFFFF' }).setOrigin(0.5);
+        // print Level name and tip
+        this.add.text(game.config.width/2, 30, 'Level 2: The Platform Is Lava!', { font: '32px Impact', fill: '#000000' }).setOrigin(0.5);
+        this.add.text(game.config.width/2, 70, 'You must be at max speed while touching the platform', { font: '32px Futura', fill: '#000000' }).setOrigin(0.5);
 
         // this.cloud01 = this.physics.add.sprite(600, 200, 'cloud').setOrigin(0.5,0.5).setScale(0.1);
         // this.cloud01.body.setAllowGravity(false).setVelocityX(25);
@@ -38,8 +39,8 @@ class Demo extends Phaser.Scene {
 
         // make ground tiles group
         this.ground = this.add.group();
-        for(let i = 0; i < game.config.width; i += tileSize) {
-            let groundTile = this.physics.add.sprite(i, game.config.height - tileSize, 'grass').setScale(0.5).setOrigin(0);
+        for(let i = 0; i < game.config.width; i += (tileSize*SCALE)) {
+            let groundTile = this.physics.add.sprite(i, game.config.height - (tileSize*SCALE), 'grass').setScale(SCALE).setOrigin(0);
             groundTile.body.immovable = true;
             groundTile.body.allowGravity = false;
             this.ground.add(groundTile);
@@ -52,14 +53,15 @@ class Demo extends Phaser.Scene {
         //     this.ground.add(groundTile);
         // }
 
-        let platform = this.add.tileSprite(1300, 600, 209 * 7, 209, 'dirt').setScale(0.5);
-        this.physics.add.existing(platform);
-        platform.body.immovable = true;
-        platform.body.allowGravity = false;
-        this.ground.add(platform);
+        this.platform = this.add.tileSprite(1300, 600, tileSize * 7, tileSize, 'dirt').setScale(SCALE);
+        this.physics.add.existing(this.platform);
+        this.platform.body.immovable = true;
+        this.platform.body.allowGravity = false;
+        console.log(this.platform);
+        
 
         // set up mouse
-        this.mouse = this.physics.add.sprite(100, game.config.height/2, 'mouse').setOrigin(0.5,0.5).setScale(0.3);
+        this.mouse = this.physics.add.sprite(100, 500, 'mouse').setOrigin(0.5,0.5).setScale(0.2);
         this.mouse.setCollideWorldBounds(true);
         this.mouse.setMaxVelocity(this.MAX_X_VEL, this.MAX_Y_VEL);
 
@@ -72,6 +74,7 @@ class Demo extends Phaser.Scene {
 
         // add physics collider
         this.physics.add.collider(this.mouse, this.ground);
+        this.physics.add.collider(this.mouse, this.platform, this.lavaPlatform, null, this);
         this.physics.add.overlap(this.mouse, this.cheese, this.collectCheese, null, this);
     }
 
@@ -100,8 +103,7 @@ class Demo extends Phaser.Scene {
 	    }
         // allow steady velocity change up to a certain key down duration
         // see: https://photonstorm.github.io/phaser3-docs/Phaser.Input.Keyboard.html#.DownDuration__anchor
-	    if(this.jumps > 0 && Phaser.Input.Keyboard.DownDuration(cursors.up, 150)) {
-            console.log("test");
+	    if(this.jumps > 0 && Phaser.Input.Keyboard.JustDown(cursors.up)) {
 	        this.mouse.body.velocity.y = this.JUMP_VELOCITY;
 	        this.jumping = true;
 	    }
@@ -112,6 +114,8 @@ class Demo extends Phaser.Scene {
 	    	this.jumping = false;
 	    }
 
+        // check if mouse is on lava platform
+
         // wrap physics object(s) .wrap(gameObject, padding)
         // this.physics.world.wrap(this.cloud01, this.cloud01.width/2);
         // this.physics.world.wrap(this.cloud02, this.cloud02.width/2);
@@ -119,7 +123,17 @@ class Demo extends Phaser.Scene {
 
     collectCheese (mouse, cheese)
     {
-        console.log("test");
+        console.log("Cheese Collected... Move on to next level");
         cheese.disableBody(true, true);
+        
+    }
+
+    lavaPlatform(mouse, platform)
+    {
+        console.log(mouse.body.speed);
+        if(mouse.body.speed < 1000) {
+            console.log(mouse.body.velocity.x)
+            this.scene.start('level2');
+        }
     }
 }

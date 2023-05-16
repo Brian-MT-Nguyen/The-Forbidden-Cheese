@@ -1,8 +1,7 @@
 // global variables
 let cursors;
-let currentScene = 0;
 const SCALE = 0.5;
-const tileSize = 100;
+const tileSize = 209;
 
 const game = new Phaser.Game({
     scale: {
@@ -14,7 +13,7 @@ const game = new Phaser.Game({
     physics: {
         default: 'arcade',
         arcade: {
-            // debug: true,
+            debug: true,
             gravity: {
                 x: 0,
                 y: 0
@@ -22,6 +21,6 @@ const game = new Phaser.Game({
         }
     },
     backgroundColor: 0x87CEEB,
-    scene: [Demo],
+    scene: [Level2],
     title: "The Forbidden Cheese",
 });
