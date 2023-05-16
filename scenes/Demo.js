@@ -6,6 +6,7 @@ class Demo extends Phaser.Scene {
     preload() {
         this.load.image('cloud', 'assets/Cloud.png');
         this.load.image('mouse', 'assets/Mouse.png');
+        this.load.image('cheese', 'assets/Cheese.png');
         this.load.image('dirt', 'assets/Dirt.png');
         this.load.image('grass', 'assets/Grass.png');
     }
@@ -62,11 +63,16 @@ class Demo extends Phaser.Scene {
         this.mouse.setCollideWorldBounds(true);
         this.mouse.setMaxVelocity(this.MAX_X_VEL, this.MAX_Y_VEL);
 
+        // set up cheese
+        this.cheese = this.physics.add.sprite(1550, 510, 'cheese').setOrigin(0.5,0.5).setScale(0.2);
+        this.cheese.body.allowGravity = false;
+
         // set up Phaser-provided cursor key input
         cursors = this.input.keyboard.createCursorKeys();
 
         // add physics collider
         this.physics.add.collider(this.mouse, this.ground);
+        this.physics.add.overlap(this.mouse, this.cheese, this.collectCheese, null, this);
     }
 
     update() {
@@ -108,5 +114,11 @@ class Demo extends Phaser.Scene {
         // wrap physics object(s) .wrap(gameObject, padding)
         this.physics.world.wrap(this.cloud01, this.cloud01.width/2);
         this.physics.world.wrap(this.cloud02, this.cloud02.width/2);
+    }
+
+    collectCheese (mouse, cheese)
+    {
+        console.log("test");
+        cheese.disableBody(true, true);
     }
 }
