@@ -13,7 +13,7 @@ const game = new Phaser.Game({
     physics: {
         default: 'arcade',
         arcade: {
-            debug: true,
+            //debug: true,
             gravity: {
                 x: 0,
                 y: 0
@@ -21,6 +21,6 @@ const game = new Phaser.Game({
         }
     },
     backgroundColor: 0x87CEEB,
-    scene: [Level2, Level3],
+    scene: [Level1, Level2, Level3],
     title: "The Forbidden Cheese",
 });

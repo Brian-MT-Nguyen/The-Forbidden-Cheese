@@ -114,7 +114,10 @@ class Level1 extends Phaser.Scene {
 
     trickPlatform(mouse, platform)
     {
-        platform.body.allowGravity = true;
+        platform.setTint(0xff4d00);
+        this.time.delayedCall(500, () => {
+            platform.body.allowGravity = true;
+        })
     }
 
     advanceScene(mouse) {
@@ -164,12 +167,16 @@ class Level2 extends Phaser.Scene {
         this.ground.body.immovable = true;
         this.ground.body.allowGravity = false;
 
+        // make normal platforms group
+        this.platforms = this.add.group();
+
         // set up platform
         this.platform = this.add.tileSprite(1400, 900, tileSize * 5, tileSize, 'dirt').setScale(SCALE, SCALE/2);
         this.physics.add.existing(this.platform);
         this.platform.body.immovable = true;
         this.platform.body.allowGravity = false;
         this.platform.body.moves = false;
+        this.platforms.add(this.platform);
 
         // set up platform2
         this.platform2 = this.add.tileSprite(900, 670, tileSize * 3, tileSize, 'dirt').setScale(SCALE, SCALE/2);
@@ -177,6 +184,7 @@ class Level2 extends Phaser.Scene {
         this.platform2.body.immovable = true;
         this.platform2.body.allowGravity = false;
         this.platform2.body.moves = false;
+        this.platforms.add(this.platform2);
 
         // set up platform3
         this.platform3 = this.add.tileSprite(1400, 500, tileSize * 3, tileSize, 'dirt').setScale(SCALE, SCALE/2);
@@ -184,6 +192,7 @@ class Level2 extends Phaser.Scene {
         this.platform3.body.immovable = true;
         this.platform3.body.allowGravity = false;
         this.platform3.body.moves = false;
+        this.platforms.add(this.platform3);
 
         // set up lava platform
         this.lavaplatform = this.add.tileSprite(700, 350, tileSize * 7, tileSize, 'lava').setScale(SCALE, SCALE/2);
@@ -210,9 +219,7 @@ class Level2 extends Phaser.Scene {
 
         // add physics collider
         this.physics.add.collider(this.mouse, this.ground);
-        this.physics.add.collider(this.mouse, this.platform);
-        this.physics.add.collider(this.mouse, this.platform2);
-        this.physics.add.collider(this.mouse, this.platform3);
+        this.physics.add.collider(this.mouse, this.platforms);
         this.physics.add.collider(this.mouse, this.lavaplatform, this.lavaPlatform, null, this);
         this.physics.add.overlap(this.mouse, this.cheese, this.collectCheese, null, this);
         this.physics.add.overlap(this.mouse, this.mousetunnel, this.advanceScene, null, this);
@@ -299,20 +306,70 @@ class Level3 extends Phaser.Scene {
         }
 
         // print Level name and tip
-        this.add.text(game.config.width/2, 30, 'Level 3: A Real Man\'s Level', { font: '32px Impact', fill: '#000000' }).setOrigin(0.5);
+        this.add.text(game.config.width/2, 30, 'Level 3: A Real Gamer\'s Level', { font: '32px Impact', fill: '#000000' }).setOrigin(0.5);
         this.add.text(game.config.width/2, 70, 'You know all the block types, good luck!', { font: '32px Futura', fill: '#000000' }).setOrigin(0.5);
 
         // make ground tiles group
-        this.ground = this.add.tileSprite(0, 1080-(tileSize*SCALE), tileSize * 19, tileSize, 'grass').setScale(SCALE).setOrigin(0);
+        this.grounds = this.add.group();
+        this.ground = this.add.tileSprite(0, 1080-(tileSize*SCALE), tileSize * 3, tileSize, 'grass').setScale(SCALE).setOrigin(0);
         this.physics.add.existing(this.ground);
         this.ground.body.immovable = true;
         this.ground.body.allowGravity = false;
+        this.grounds.add(this.ground);
+
+        this.ground2 = this.add.tileSprite(1044, 1080-(tileSize*SCALE), tileSize, tileSize, 'grass').setScale(SCALE).setOrigin(0);
+        this.physics.add.existing(this.ground2);
+        this.ground2.body.immovable = true;
+        this.ground2.body.allowGravity = false;
+        this.grounds.add(this.ground2);
 
         // set up lava platform
-        this.lavaplatform = this.add.tileSprite(1300, 770, tileSize * 7, tileSize, 'dirt').setScale(SCALE, SCALE/2);
+        this.lavaplatforms = this.add.group();
+
+        this.lavaplatform = this.add.tileSprite(350, 350, tileSize * 2, tileSize, 'lava').setScale(SCALE, SCALE/2);
         this.physics.add.existing(this.lavaplatform);
         this.lavaplatform.body.immovable = true;
         this.lavaplatform.body.allowGravity = false;
+        this.lavaplatforms.add(this.lavaplatform);
+
+        this.lavaplatform2 = this.add.tileSprite(1000, 350, tileSize * 2, tileSize, 'lava').setScale(SCALE, SCALE/2);
+        this.physics.add.existing(this.lavaplatform2);
+        this.lavaplatform2.body.immovable = true;
+        this.lavaplatform2.body.allowGravity = false;
+        this.lavaplatforms.add(this.lavaplatform2);
+
+        // set up sand platform
+        this.trickplatforms = this.add.group();
+
+        this.trickplatform = this.add.tileSprite((game.config.width/6) - 7, (game.config.height - (tileSize*SCALE)), tileSize * 7, tileSize, 'sand').setScale(SCALE).setOrigin(0);
+        this.physics.add.existing(this.trickplatform);
+        this.trickplatform.body.immovable = true;
+        this.trickplatform.body.allowGravity = false;
+        this.trickplatforms.add(this.trickplatform);
+
+        this.trickplatform2 = this.add.tileSprite(1400, (game.config.height - (3*tileSize*SCALE)), tileSize, tileSize, 'sand').setScale(SCALE).setOrigin(0);
+        this.physics.add.existing(this.trickplatform2);
+        this.trickplatform2.body.immovable = true;
+        this.trickplatform2.body.allowGravity = false;
+        this.trickplatforms.add(this.trickplatform2);
+
+        this.trickplatform3 = this.add.tileSprite(1800, (game.config.height - (5*tileSize*SCALE)), tileSize, tileSize, 'sand').setScale(SCALE).setOrigin(0);
+        this.physics.add.existing(this.trickplatform3);
+        this.trickplatform3.body.immovable = true;
+        this.trickplatform3.body.allowGravity = false;
+        this.trickplatforms.add(this.trickplatform3);
+
+        this.trickplatform4 = this.add.tileSprite(1500, (game.config.height - (7*tileSize*SCALE)), tileSize, tileSize, 'sand').setScale(SCALE).setOrigin(0);
+        this.physics.add.existing(this.trickplatform4);
+        this.trickplatform4.body.immovable = true;
+        this.trickplatform4.body.allowGravity = false;
+        this.trickplatforms.add(this.trickplatform4);
+
+        this.trickplatform5 = this.add.tileSprite(121, 350, tileSize * 2.4, tileSize, 'sand').setScale(SCALE, SCALE/2);
+        this.physics.add.existing(this.trickplatform5);
+        this.trickplatform5.body.immovable = true;
+        this.trickplatform5.body.allowGravity = false;
+        this.trickplatforms.add(this.trickplatform5);
         
         // make mouse tunnel
         this.mousetunnel = this.physics.add.sprite(100, 892, 'mousetunnel').setOrigin(0.5,0.5).setScale(0.8);
@@ -325,16 +382,16 @@ class Level3 extends Phaser.Scene {
         this.mouse.setMaxVelocity(this.MAX_X_VEL, this.MAX_Y_VEL);
 
         // set up cheese
-        this.cheese = this.physics.add.sprite(1550, 710, 'cheese').setOrigin(0.5,0.5).setScale(0.2);
+        this.cheese = this.physics.add.sprite(350, 290, 'cheese').setOrigin(0.5,0.5).setScale(0.2);
         this.cheese.body.allowGravity = false;
 
         // set up Phaser-provided cursor key input
         cursors = this.input.keyboard.createCursorKeys();
 
         // add physics collider
-        this.physics.add.collider(this.mouse, this.ground);
-        this.physics.add.collider(this.mouse, this.platform);
-        this.physics.add.collider(this.mouse, this.lavaplatform, this.lavaPlatform, null, this);
+        this.physics.add.collider(this.mouse, this.grounds);
+        this.physics.add.collider(this.mouse, this.lavaplatforms, this.lavaPlatform, null, this);
+        this.physics.add.collider(this.mouse, this.trickplatforms, this.trickPlatform, null, this);
         this.physics.add.overlap(this.mouse, this.cheese, this.collectCheese, null, this);
         this.physics.add.overlap(this.mouse, this.mousetunnel, this.advanceScene, null, this);
     }
@@ -344,7 +401,7 @@ class Level3 extends Phaser.Scene {
         if(this.mouse.body.y >= 975) {
             this.mouse.setCollideWorldBounds(false);
             this.time.delayedCall(500, () => {
-                this.scene.start('level2');
+                this.scene.start('level3');
             });
         } else {
             this.mouse.setCollideWorldBounds(true);
@@ -378,12 +435,21 @@ class Level3 extends Phaser.Scene {
     {
         if(mouse.body.speed < 1000) {
             console.log(mouse.body.velocity.x)
-            this.scene.start('level2');
+            this.scene.start('level3');
         }
     }
+
+    trickPlatform(mouse, platform)
+    {
+        platform.setTint(0xff4d00);
+        this.time.delayedCall(500, () => {
+            platform.body.allowGravity = true;
+        })
+    }
+
     advanceScene(mouse) {
         if(mouse.hasCheese == true) {
-            this.scene.start('level2');
+            this.scene.start('level3');
         }
     }
 }
