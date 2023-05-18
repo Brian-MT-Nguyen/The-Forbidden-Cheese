@@ -165,17 +165,32 @@ class LevelSummary extends Phaser.Scene {
     }
 }
 
+class MainMenu extends Phaser.Scene {
+    constructor()
+    {
+        super('mainmenu');
+    }
+
+    create()
+    {
+        let levelComp = this.add.text(game.config.width/2, 100, 'LEVEL COMPLETE!', {font: `bold 75px Futura`, color: '#000'})
+            .setOrigin(0.5);
+        
+        // this.tweens.add({
+        //     targets: levelComp,
+        //     y: { from: 1, to: 0 },
+        //     duration: 2000,
+        //     onComplete: () => {
+                
+        //     }
+        // });
+    }
+}
+
 class End extends Phaser.Scene {
     constructor()
     {
         super('end');
-    }
-
-    init(data)
-    {
-        this.timeSummary = data.timeSummary;
-        this.tries = data.tries;
-        this.level = data.level;
     }
 
     create()

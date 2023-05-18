@@ -166,7 +166,6 @@ class Level2 extends Phaser.Scene {
         this.MAX_Y_VEL = 5000;
         this.DRAG = 2000;    // DRAG < ACCELERATION = icy slide
         this.JUMP_VELOCITY = -1600;
-        this.attempts = 1;
         this.physics.world.gravity.y = 5000;
 
         // Debugging: draw grid lines for jump height reference
