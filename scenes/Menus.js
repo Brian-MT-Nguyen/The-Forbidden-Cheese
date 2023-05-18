@@ -63,7 +63,7 @@ class LevelSummary extends Phaser.Scene {
                 });
             })
             .on('pointerdown', () => {
-                this.scene.start(`level${this.level + 1}`)
+                this.scene.start(`level${this.level + 1}`, {attempts: 1});
             });
 
         let mainMenu = this.add.text((game.config.width/2) + 50, 1200, 'Main Menu', {font: `bold 50px Futura`, color: '#000'})

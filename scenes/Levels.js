@@ -3,6 +3,11 @@ class Level1 extends Phaser.Scene {
         super('level1');
     }
 
+    init(data)
+    {
+        this.attempts = data.attempts || 1;
+    }
+
     preload() {
         this.load.image('mousetunnel' , 'assets/MouseTunnel.png');
         this.load.image('mouse' , 'assets/Mouse.png');
@@ -19,7 +24,6 @@ class Level1 extends Phaser.Scene {
         this.MAX_Y_VEL = 5000;
         this.DRAG = 2000;    // DRAG < ACCELERATION = icy slide
         this.JUMP_VELOCITY = -1600;
-        this.attempts = 1;
         this.physics.world.gravity.y = 5000;
 
         // Debugging: draw grid lines for jump height reference
@@ -85,7 +89,7 @@ class Level1 extends Phaser.Scene {
             this.mouse.setCollideWorldBounds(false);
             this.time.delayedCall(500, () => {
                 this.attempts += 1;
-                this.scene.restart();
+                this.scene.start('level1', {attempts: this.attempts});
             });
         } else {
             this.mouse.setCollideWorldBounds(true);
@@ -138,6 +142,11 @@ class Level1 extends Phaser.Scene {
 class Level2 extends Phaser.Scene {
     constructor() {
         super('level2');
+    }
+
+    init(data)
+    {
+        this.attempts = data.attempts;
     }
 
     preload() {
@@ -243,7 +252,7 @@ class Level2 extends Phaser.Scene {
             this.mouse.setCollideWorldBounds(false);
             this.time.delayedCall(500, () => {
                 this.attempts += 1;
-                this.scene.start('level2');
+                this.scene.start('level2', {attempts: this.attempts});
             });
         } else {
             this.mouse.setCollideWorldBounds(true);
@@ -278,7 +287,7 @@ class Level2 extends Phaser.Scene {
         if(mouse.body.speed < 1000) {
             console.log(mouse.body.velocity.x)
             this.attempts += 1;
-            this.scene.start('level2');
+            this.scene.start('level2', {attempts: this.attempts});
         }
     }
     advanceScene(mouse, mousetunnel) {
@@ -295,6 +304,11 @@ class Level2 extends Phaser.Scene {
 class Level3 extends Phaser.Scene {
     constructor() {
         super('level3');
+    }
+
+    init(data)
+    {
+        this.attempts = data.attempts;
     }
 
     preload() {
@@ -422,7 +436,7 @@ class Level3 extends Phaser.Scene {
             this.mouse.setCollideWorldBounds(false);
             this.time.delayedCall(500, () => {
                 this.attempts += 1;
-                this.scene.start('level3');
+                this.scene.start('level3', {attempts: this.attempts});
             });
         } else {
             this.mouse.setCollideWorldBounds(true);
@@ -457,7 +471,7 @@ class Level3 extends Phaser.Scene {
         if(mouse.body.speed < 1000) {
             console.log(mouse.body.velocity.x)
             this.attempts += 1;
-            this.scene.start('level3');
+            this.scene.start('level3', {attempts: this.attempts});
         }
     }
 
