@@ -19,6 +19,7 @@ class Level1 extends Phaser.Scene {
         this.MAX_Y_VEL = 5000;
         this.DRAG = 2000;    // DRAG < ACCELERATION = icy slide
         this.JUMP_VELOCITY = -1600;
+        this.attempts = 1;
         this.physics.world.gravity.y = 5000;
 
         // Debugging: draw grid lines for jump height reference
@@ -76,13 +77,15 @@ class Level1 extends Phaser.Scene {
         this.physics.add.collider(this.mouse, this.trickplatform, this.trickPlatform, null, this);
         this.physics.add.overlap(this.mouse, this.cheese, this.collectCheese, null, this);
         this.physics.add.overlap(this.mouse, this.mousetunnel, this.advanceScene, null, this);
+        this.startTime = new Date();
     }
 
     update() {
         if(this.mouse.body.y >= 975) {
             this.mouse.setCollideWorldBounds(false);
             this.time.delayedCall(500, () => {
-                this.scene.start('level1');
+                this.attempts += 1;
+                this.scene.restart();
             });
         } else {
             this.mouse.setCollideWorldBounds(true);
@@ -120,9 +123,14 @@ class Level1 extends Phaser.Scene {
         })
     }
 
-    advanceScene(mouse) {
+    advanceScene(mouse, mousetunnel) {
         if(mouse.hasCheese == true) {
-            this.scene.start('level2');
+            this.endTime = new Date();
+            const elapsedTime = this.endTime - this.startTime;
+            this.time.delayedCall(100, () => mouse.setMaxVelocity(0,0));
+            this.cameras.main.fade(750, 135, 206, 235);
+            console.log(this.attempts);
+            this.time.delayedCall(740, () =>this.scene.start('levelsummary', {timeSummary: elapsedTime, attempts: this.attempts, level: 1}));
         }
     }
 }
@@ -133,6 +141,7 @@ class Level2 extends Phaser.Scene {
     }
 
     preload() {
+        this.cameras.main.setBackgroundColor(0x87CEEB);
         this.load.image('mousetunnel' , 'assets/MouseTunnel.png');
         this.load.image('mouse' , 'assets/Mouse.png');
         this.load.image('cheese', 'assets/Cheese.png');
@@ -148,6 +157,7 @@ class Level2 extends Phaser.Scene {
         this.MAX_Y_VEL = 5000;
         this.DRAG = 2000;    // DRAG < ACCELERATION = icy slide
         this.JUMP_VELOCITY = -1600;
+        this.attempts = 1;
         this.physics.world.gravity.y = 5000;
 
         // Debugging: draw grid lines for jump height reference
@@ -223,13 +233,16 @@ class Level2 extends Phaser.Scene {
         this.physics.add.collider(this.mouse, this.lavaplatform, this.lavaPlatform, null, this);
         this.physics.add.overlap(this.mouse, this.cheese, this.collectCheese, null, this);
         this.physics.add.overlap(this.mouse, this.mousetunnel, this.advanceScene, null, this);
+        this.startTime = new Date();
     }
 
     update() {
+        console.log(this.attempts);
         // check for out of bounds
         if(this.mouse.body.y >= 975) {
             this.mouse.setCollideWorldBounds(false);
             this.time.delayedCall(500, () => {
+                this.attempts += 1;
                 this.scene.start('level2');
             });
         } else {
@@ -264,12 +277,17 @@ class Level2 extends Phaser.Scene {
     {
         if(mouse.body.speed < 1000) {
             console.log(mouse.body.velocity.x)
+            this.attempts += 1;
             this.scene.start('level2');
         }
     }
-    advanceScene(mouse) {
+    advanceScene(mouse, mousetunnel) {
         if(mouse.hasCheese == true) {
-            this.scene.start('level3');
+            this.endTime = new Date();
+            const elapsedTime = this.endTime - this.startTime;
+            this.time.delayedCall(100, () => mouse.setMaxVelocity(0,0));
+            this.cameras.main.fade(750, 135, 206, 235);
+            this.time.delayedCall(740, () =>this.scene.start('levelsummary', {timeSummary: elapsedTime, attempts: this.attempts, level: 2}));
         }
     }
 }
@@ -280,6 +298,7 @@ class Level3 extends Phaser.Scene {
     }
 
     preload() {
+        this.cameras.main.setBackgroundColor(0x87CEEB);
         this.load.image('mousetunnel' , 'assets/MouseTunnel.png');
         this.load.image('mouse' , 'assets/Mouse.png');
         this.load.image('cheese', 'assets/Cheese.png');
@@ -394,6 +413,7 @@ class Level3 extends Phaser.Scene {
         this.physics.add.collider(this.mouse, this.trickplatforms, this.trickPlatform, null, this);
         this.physics.add.overlap(this.mouse, this.cheese, this.collectCheese, null, this);
         this.physics.add.overlap(this.mouse, this.mousetunnel, this.advanceScene, null, this);
+        this.startTime = new Date();
     }
 
     update() {
@@ -401,6 +421,7 @@ class Level3 extends Phaser.Scene {
         if(this.mouse.body.y >= 975) {
             this.mouse.setCollideWorldBounds(false);
             this.time.delayedCall(500, () => {
+                this.attempts += 1;
                 this.scene.start('level3');
             });
         } else {
@@ -435,6 +456,7 @@ class Level3 extends Phaser.Scene {
     {
         if(mouse.body.speed < 1000) {
             console.log(mouse.body.velocity.x)
+            this.attempts += 1;
             this.scene.start('level3');
         }
     }
@@ -447,9 +469,13 @@ class Level3 extends Phaser.Scene {
         })
     }
 
-    advanceScene(mouse) {
+    advanceScene(mouse, mousetunnel) {
         if(mouse.hasCheese == true) {
-            this.scene.start('level3');
+            this.endTime = new Date();
+            const elapsedTime = this.endTime - this.startTime;
+            this.time.delayedCall(100, () => mouse.setMaxVelocity(0,0));
+            this.cameras.main.fade(750, 135, 206, 235);
+            this.time.delayedCall(740, () =>this.scene.start('levelsummary', {timeSummary: elapsedTime, attempts: this.attempts, level: 3}));
         }
     }
 }
