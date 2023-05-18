@@ -49,7 +49,6 @@ class Level1 extends Phaser.Scene {
         this.platform.body.immovable = true;
         this.platform.body.allowGravity = false;
         this.platform.body.gravity.y = -5000;
-        console.log(this.platform.body.gravity.y)
 
         // set up sand platform
         this.trickplatform = this.add.tileSprite((game.config.width/4) + 42, (game.config.height - (tileSize*SCALE)), tileSize * 14, tileSize, 'sand').setScale(SCALE).setOrigin(0);
@@ -133,7 +132,6 @@ class Level1 extends Phaser.Scene {
             const elapsedTime = this.endTime - this.startTime;
             this.time.delayedCall(100, () => mouse.setMaxVelocity(0,0));
             this.cameras.main.fade(750, 135, 206, 235);
-            console.log(this.attempts);
             this.time.delayedCall(740, () =>this.scene.start('levelsummary', {timeSummary: elapsedTime, attempts: this.attempts, level: 1}));
         }
     }
@@ -146,7 +144,7 @@ class Level2 extends Phaser.Scene {
 
     init(data)
     {
-        this.attempts = data.attempts;
+        this.attempts = data.attempts || 1;
     }
 
     preload() {
@@ -245,7 +243,6 @@ class Level2 extends Phaser.Scene {
     }
 
     update() {
-        console.log(this.attempts);
         // check for out of bounds
         if(this.mouse.body.y >= 975) {
             this.mouse.setCollideWorldBounds(false);
@@ -284,7 +281,6 @@ class Level2 extends Phaser.Scene {
     lavaPlatform(mouse, platform)
     {
         if(mouse.body.speed < 1000) {
-            console.log(mouse.body.velocity.x)
             this.attempts += 1;
             this.scene.start('level2', {attempts: this.attempts});
         }
@@ -307,7 +303,7 @@ class Level3 extends Phaser.Scene {
 
     init(data)
     {
-        this.attempts = data.attempts;
+        this.attempts = data.attempts || 1;
     }
 
     preload() {
@@ -468,7 +464,6 @@ class Level3 extends Phaser.Scene {
     lavaPlatform(mouse, platform)
     {
         if(mouse.body.speed < 1000) {
-            console.log(mouse.body.velocity.x)
             this.attempts += 1;
             this.scene.start('level3', {attempts: this.attempts});
         }

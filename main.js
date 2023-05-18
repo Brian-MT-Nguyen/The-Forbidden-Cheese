@@ -21,6 +21,6 @@ const game = new Phaser.Game({
         }
     },
     backgroundColor: 0x87CEEB,
-    scene: [Level1, Level2, Level3, LevelSummary, End],
+    scene: [MainMenu, Level1, Level2, Level3, LevelSummary, End],
     title: "The Forbidden Cheese",
 });
