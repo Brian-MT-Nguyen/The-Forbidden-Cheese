@@ -369,7 +369,7 @@ class MainMenu extends Phaser.Scene {
                     targets: play,
                     y: { from: 1100, to: 400 },
                     ease: 'Expo.Out',
-                    duration: 2000,
+                    duration: 1000,
                     delay: 500
                 });
 
@@ -377,7 +377,7 @@ class MainMenu extends Phaser.Scene {
                     targets: level1,
                     y: { from: 1250, to: 550 },
                     ease: 'Expo.Out',
-                    duration: 2000,
+                    duration: 1000,
                     delay: 600
                 });
 
@@ -385,7 +385,7 @@ class MainMenu extends Phaser.Scene {
                     targets: level2,
                     y: { from: 1400, to: 700 },
                     ease: 'Expo.Out',
-                    duration: 2000,
+                    duration: 1000,
                     delay: 700
                 });
 
@@ -393,7 +393,7 @@ class MainMenu extends Phaser.Scene {
                     targets: level3,
                     y: { from: 1550, to: 850 },
                     ease: 'Expo.Out',
-                    duration: 2000,
+                    duration: 1000,
                     delay: 800
                 });
             }
@@ -407,18 +407,86 @@ class End extends Phaser.Scene {
         super('end');
     }
 
+    preload()
+    {
+        this.load.image('mousetunnel' , 'assets/MouseTunnel.png');
+        this.load.image('mouse' , 'assets/Mouse.png');
+        this.load.image('cheese', 'assets/Cheese.png');
+    }
+
     create()
     {
-        let levelComp = this.add.text(game.config.width/2, 100, 'LEVEL COMPLETE!', {font: `bold 75px Futura`, color: '#000'})
+        // Create the text
+        let thanks = this.add.text(game.config.width/2, -500, 'THANKS FOR PLAYING!', {font: `bold 100px Futura`, color: '#FFD60B', stroke: '#000000', strokeThickness: 7})
             .setOrigin(0.5);
         
-        // this.tweens.add({
-        //     targets: levelComp,
-        //     y: { from: 1, to: 0 },
-        //     duration: 2000,
-        //     onComplete: () => {
-                
-        //     }
-        // });
+        // Create the sprites
+        let mousetunnel = this.add.sprite(-700, 1000, 'mousetunnel')
+            .setOrigin(0, 1).setScale(2.6);
+        let mouse = this.add.sprite(-700, 1000, 'mouse')
+            .setOrigin(0, 1);
+        let cheese = this.add.sprite(2620, 1000, 'cheese')
+            .setOrigin(1, 1).setScale(1.4);
+        // PLAY (RECC FOR FIRST TIME PLAYERS)
+        let mainmenu = this.add.text(game.config.width/2, 1100, 'Main Menu', {font: `bold 50px Futura`, color: '#000000'})
+            .setOrigin(0.5);
+        mainmenu.setInteractive()
+            .on('pointerover', () => {
+                mainmenu.setColor('#006400');
+                this.tweens.add({
+                    targets: mainmenu,
+                    scale: 1.2,
+                    ease: 'Expo.Out',
+                    duration: 500
+                });
+            })
+            .on('pointerout', () => {
+                mainmenu.setColor('#000000');
+                this.tweens.add({
+                    targets: mainmenu,
+                    scale: 1,
+                    ease: 'Expo.Out',
+                    duration: 500
+                });
+            })
+            .on('pointerdown', () => {
+                this.cameras.main.fade(750, 135, 206, 235);
+                this.time.delayedCall(740, () => this.scene.start('mainmenu'));
+            });
+
+        this.tweens.add({
+            targets: thanks,
+            y: { from: -500, to: 150 },
+            ease: 'Expo.out',
+            duration: 1500,
+            onComplete: () => {
+                // Animations for mouse and tunnel
+                this.tweens.add({
+                    targets: [mouse, mousetunnel],
+                    x: { from: -700, to: 200 },
+                    ease: 'Expo.Out',
+                    duration: 1000,
+                    delay: 500
+                });
+
+                // Animation for cheese
+                this.tweens.add({
+                    targets: cheese,
+                    x: { from: 2620, to: (game.config.width - 200) },
+                    ease: 'Expo.Out',
+                    duration: 1000,
+                    delay: 500
+                });
+
+                // Animations for Text
+                this.tweens.add({
+                    targets: mainmenu,
+                    y: { from: 1100, to: game.config.height/2 },
+                    ease: 'Expo.Out',
+                    duration: 1000,
+                    delay: 500
+                });
+            }
+        });
     }
 }

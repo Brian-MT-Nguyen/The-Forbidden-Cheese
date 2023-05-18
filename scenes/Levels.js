@@ -26,16 +26,36 @@ class Level1 extends Phaser.Scene {
         this.JUMP_VELOCITY = -1600;
         this.physics.world.gravity.y = 5000;
 
-        // Debugging: draw grid lines for jump height reference
-        let graphics = this.add.graphics();
-        graphics.lineStyle(2, 0xFFFFFF, 0.1);
-	    for(let y = game.config.height-70; y >= 35; y -= 35) {
-            graphics.lineBetween(0, y, game.config.width, y);
-        }
-
         // print Level name and tip
         this.add.text(game.config.width/2, 30, 'Level 1: A Regular Starter Level...?', { font: '32px Impact', fill: '#000000' }).setOrigin(0.5);
         this.add.text(game.config.width/2, 70, 'Trick Platform, Watch your Step or you\'ll regret!', { font: '32px Futura', fill: '#000000' }).setOrigin(0.5);
+
+        // Retry Button
+        let retry = this.add.text(1700, 100, 'Retry', {font: `bold 50px Futura`, color: '#000000'})
+            .setOrigin(0.5);
+            retry.setInteractive()
+            .on('pointerover', () => {
+                retry.setColor('#A30000');
+                this.tweens.add({
+                    targets: retry,
+                    scale: 1.2,
+                    ease: 'Expo.Out',
+                    duration: 500
+                });
+            })
+            .on('pointerout', () => {
+                retry.setColor('#000000');
+                this.tweens.add({
+                    targets: retry,
+                    scale: 1,
+                    ease: 'Expo.Out',
+                    duration: 500
+                });
+            })
+            .on('pointerdown', () => {
+                this.attempts += 1;
+                this.scene.start('level1', {attempts: this.attempts});
+            });
 
         // make ground tiles group
         this.ground = this.add.tileSprite(0, 1080-(tileSize*SCALE), tileSize * 5, tileSize, 'grass').setScale(SCALE).setOrigin(0);
@@ -166,16 +186,36 @@ class Level2 extends Phaser.Scene {
         this.JUMP_VELOCITY = -1600;
         this.physics.world.gravity.y = 5000;
 
-        // Debugging: draw grid lines for jump height reference
-        let graphics = this.add.graphics();
-        graphics.lineStyle(2, 0xFFFFFF, 0.1);
-	    for(let y = game.config.height-70; y >= 35; y -= 35) {
-            graphics.lineBetween(0, y, game.config.width, y);
-        }
-
         // print Level name and tip
         this.add.text(game.config.width/2, 30, 'Level 2: The Platform Is Lava!', { font: '32px Impact', fill: '#000000' }).setOrigin(0.5);
         this.add.text(game.config.width/2, 70, 'You must be at max speed while touching the platform', { font: '32px Futura', fill: '#000000' }).setOrigin(0.5);
+
+        // Retry Button
+        let retry = this.add.text(1700, 100, 'Retry', {font: `bold 50px Futura`, color: '#000000'})
+            .setOrigin(0.5);
+            retry.setInteractive()
+            .on('pointerover', () => {
+                retry.setColor('#A30000');
+                this.tweens.add({
+                    targets: retry,
+                    scale: 1.2,
+                    ease: 'Expo.Out',
+                    duration: 500
+                });
+            })
+            .on('pointerout', () => {
+                retry.setColor('#000000');
+                this.tweens.add({
+                    targets: retry,
+                    scale: 1,
+                    ease: 'Expo.Out',
+                    duration: 500
+                });
+            })
+            .on('pointerdown', () => {
+                this.attempts += 1;
+                this.scene.start('level2', {attempts: this.attempts});
+            });
 
         // make ground tiles group
         this.ground = this.add.tileSprite(0, 1080-(tileSize*SCALE), tileSize * 7, tileSize, 'grass').setScale(SCALE).setOrigin(0);
@@ -326,16 +366,36 @@ class Level3 extends Phaser.Scene {
         this.JUMP_VELOCITY = -1600;
         this.physics.world.gravity.y = 5000;
 
-        // Debugging: draw grid lines for jump height reference
-        let graphics = this.add.graphics();
-        graphics.lineStyle(2, 0xFFFFFF, 0.1);
-	    for(let y = game.config.height-70; y >= 35; y -= 35) {
-            graphics.lineBetween(0, y, game.config.width, y);
-        }
-
         // print Level name and tip
         this.add.text(game.config.width/2, 30, 'Level 3: A Real Gamer\'s Level', { font: '32px Impact', fill: '#000000' }).setOrigin(0.5);
         this.add.text(game.config.width/2, 70, 'You know all the block types, good luck!', { font: '32px Futura', fill: '#000000' }).setOrigin(0.5);
+
+        // Retry Button
+        let retry = this.add.text(1700, 100, 'Retry', {font: `bold 50px Futura`, color: '#000000'})
+            .setOrigin(0.5);
+            retry.setInteractive()
+            .on('pointerover', () => {
+                retry.setColor('#A30000');
+                this.tweens.add({
+                    targets: retry,
+                    scale: 1.2,
+                    ease: 'Expo.Out',
+                    duration: 500
+                });
+            })
+            .on('pointerout', () => {
+                retry.setColor('#000000');
+                this.tweens.add({
+                    targets: retry,
+                    scale: 1,
+                    ease: 'Expo.Out',
+                    duration: 500
+                });
+            })
+            .on('pointerdown', () => {
+                this.attempts += 1;
+                this.scene.start('level3', {attempts: this.attempts});
+            });
 
         // make ground tiles group
         this.grounds = this.add.group();
