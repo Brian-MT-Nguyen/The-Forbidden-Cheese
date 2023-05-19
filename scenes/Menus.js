@@ -222,7 +222,8 @@ class MainMenu extends Phaser.Scene {
         // Level Complete!
         let title = this.add.text(game.config.width/2, -500, 'The Forbidden Cheese', {font: `bold 100px Futura`, color: '#FFD60B', stroke: '#000000', strokeThickness: 7})
             .setOrigin(0.5);
-
+        let howToPlay = this.add.text(2620, 370, 'How To Play:\nLeft Arrow to move left\nRight Arrow to move right\nUp Arrow to jump\nGoal: Get the cheese then go back\ninto ur hole!', {font: `50px Futura`, color: '#000000'})
+            .setOrigin(0.5);
         // PLAY (RECC FOR FIRST TIME PLAYERS)
         let play = this.add.text(game.config.width/2, 1100, 'PLAY', {font: `bold 50px Futura`, color: '#000000'})
             .setOrigin(0.5);
@@ -359,6 +360,15 @@ class MainMenu extends Phaser.Scene {
                 this.tweens.add({
                     targets: cheese,
                     x: { from: 2620, to: (game.config.width - 200) },
+                    ease: 'Expo.Out',
+                    duration: 1000,
+                    delay: 500
+                });
+
+                // Animation for cheese
+                this.tweens.add({
+                    targets: howToPlay,
+                    x: { from: 2620, to: 1520 },
                     ease: 'Expo.Out',
                     duration: 1000,
                     delay: 500
