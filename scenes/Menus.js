@@ -500,3 +500,159 @@ class End extends Phaser.Scene {
         });
     }
 }
+
+class BeginIntro extends Phaser.Scene {
+    constructor() {
+        super('beginintro')
+    }
+    preload() {
+        this.load.script('webfont', 'https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js');
+    }
+    create() {
+        // Ensure font loads in for user since it's the first scene
+        WebFont.load({
+            google: {
+                families: ['Press Start 2P']
+            },
+            active: () => {
+                let veryStartText = this.add.text(
+                    50,
+                    50,
+                    "Tap to Begin.",
+                    {
+                        fontFamily: "'Press Start 2P', sans-serif",
+                        fontWeight: 400,
+                        fontStyle: 'normal',
+                        fontSize: 40,
+                        fill: "#000000"
+                    }
+                );
+                this.input.on('pointerdown', () => {
+                    this.scene.start('studiointro');
+                });
+
+            }
+        });   
+    }
+}
+
+class StudioIntro extends Phaser.Scene {
+    constructor() {
+        super('studiointro')
+    }
+    preload() {
+        this.load.path = './assets/';
+        this.load.audio('sfxOpen', 'FridgeOpen.wav');
+        this.load.audio('sfxClose', 'FridgeClose.wav');
+        this.load.image('gfc', 'GreenFridgeClosed.png');
+        this.load.image('gfho', 'GreenFridgeHalfOpened.png');
+        this.load.image('gfo', 'GreenFridgeOpened.png');
+        this.load.script('webfont', 'https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js');
+    }
+    create() {
+        //preload studio text
+        let studioText = this.add.text(
+            1030,
+            490,
+            "Green\nCheeze\nStudios",
+            {
+                fontFamily: "'Press Start 2P', sans-serif",
+                fontWeight: 400,
+                fontStyle: 'normal',
+                fontSize: 60,
+                fill: "#000000",
+                lineSpacing: 30,
+                align: 'center',
+                wordWrap: true,
+                wordWrapWidth: 400
+            }
+        );
+        studioText.setOrigin(0.5,0.5);
+        studioText.setScale(0);
+
+        this.anims.create({
+            key: 'GreenFridgeOpenAnimation',
+            frames: [
+                { key: 'gfc' },
+                { key: 'gfho' },
+                { key: 'gfo' }
+            ],
+            frameRate: 3, // frames per second
+        });
+
+        this.anims.create({
+            key: 'GreenFridgeCloseAnimation',
+            frames: [
+                { key: 'gfo' },
+                { key: 'gfho' },
+                { key: 'gfc' }
+            ],
+            frameRate: 15, // frames per second
+        });
+        let fridge = this.add.sprite(960, 250, 'gfc');
+        fridge.setOrigin(0.5,0.5);
+        fridge.setScale(0,0);
+        studioText.depth = fridge.depth + 1;
+        this.tweens.add({
+            targets: fridge,
+            scale: 0.83,
+            duration: 3000,
+            ease: 'Linear',
+            onComplete: () => {
+                this.sound.play('sfxOpen');
+                fridge.play('GreenFridgeOpenAnimation');
+                fridge.on('animationcomplete', () => {
+                    studioText.visible = true;
+                    this.tweens.add({
+                        targets: studioText,
+                        angle: 360,
+                        scale: 1,
+                        duration: 1000,
+                        hold: 2000,
+                        yoyo: true,
+                        onComplete: () => {
+                            fridge.setScale(0);
+                            let fridgeClosed = this.add.sprite(960, 250, 'gfo').setScale(0.83);
+                            fridgeClosed.setOrigin(0.5,0.5);
+                            fridgeClosed.play('GreenFridgeCloseAnimation');
+                            this.sound.play('sfxClose');
+                            fridgeClosed.on('animationcomplete', () => {
+                                // Click to begin text
+                                let beginText = this.add.text(
+                                    960,
+                                    850,
+                                    "Click anywhere\nto begin...",
+                                    {
+                                        fontFamily: "'Press Start 2P', sans-serif",
+                                        fontWeight: 400,
+                                        fontStyle: 'normal',
+                                        fontSize: 40,
+                                        align: 'center'
+                                    }
+                                );
+                                beginText.setOrigin(0.5,0.5);
+                
+                                // Have Text fade in
+                                beginText.alpha = 0;
+                                this.tweens.add({
+                                    targets: beginText,
+                                    alpha: 1,
+                                    duration: 2000,
+                                    ease: 'Linear',
+                                    yoyo: true,
+                                    repeat: -1
+                                });
+
+                                this.input.on('pointerdown', () => {
+                                    // Fade camera to Title Screen
+                                    this.cameras.main.fade(1000, 135, 206, 235);
+                                    this.time.delayedCall(990, () => this.scene.start('mainmenu'));
+                                });
+                            });
+                        }
+                    });
+                });
+            }
+        });
+    }
+}
