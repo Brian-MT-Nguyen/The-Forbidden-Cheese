@@ -1,7 +1,7 @@
 # The-Forbidden-Cheese
 A simple physics-based platformer created by Brian Nguyen.\
 \
-Link to Deployed Game: [The Forbidden Cheese](https://brian-mt-nguyen.github.io/The-Forbidden-Cheese/)\
+Link to Deployed Game: [The Forbidden Cheese](https://brian-mt-nguyen.github.io/The-Forbidden-Cheese/)
 ## Gameplay/Experience requirements:
 - **The game uses both continuous and discrete inputs from the player**: SATISFIED
     - Discrete: Arrow Key Button presses
