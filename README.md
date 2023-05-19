@@ -16,7 +16,7 @@ Link to Deployed Game: [The Forbidden Cheese](https://brian-mt-nguyen.github.io/
     - Main Menu Screen (How to Play Controls + Level Select)
     - End of Level Summaries (Shows Level Completed, Attempts to win, Time to complete, and Next Level + Main Menu buttons)
 
-Asset sources:\
+## Asset sources:
 All assets and sound effects created myself using Illustrator and audacity except ones listed below:
-- [Mouse](https://www.pngkit.com/bigpic/u2e6r5t4q8a9e6r5/) : I changed the tail color.
-- [Cheese](http://pixelartmaker.com/art/605a4c2a78ea075) : I added a black outline around the cheese.
+- [Mouse](https://www.pngkit.com/bigpic/u2e6r5t4q8a9e6r5/): I changed the tail color.
+- [Cheese](http://pixelartmaker.com/art/605a4c2a78ea075): I added a black outline around the cheese.
