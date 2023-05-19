@@ -227,7 +227,7 @@ class Level2 extends Phaser.Scene {
         this.platforms = this.add.group();
 
         // set up platform
-        this.platform = this.add.tileSprite(1400, 900, tileSize * 5, tileSize, 'dirt').setScale(SCALE, SCALE/2);
+        this.platform = this.add.tileSprite(1350, 900, tileSize * 5, tileSize, 'dirt').setScale(SCALE, SCALE/2);
         this.physics.add.existing(this.platform);
         this.platform.body.immovable = true;
         this.platform.body.allowGravity = false;
@@ -405,7 +405,7 @@ class Level3 extends Phaser.Scene {
         this.ground.body.allowGravity = false;
         this.grounds.add(this.ground);
 
-        this.ground2 = this.add.tileSprite(1044, 1080-(tileSize*SCALE), tileSize, tileSize, 'grass').setScale(SCALE).setOrigin(0);
+        this.ground2 = this.add.tileSprite(1044, 1080-(tileSize*SCALE), tileSize*2, tileSize, 'grass').setScale(SCALE).setOrigin(0);
         this.physics.add.existing(this.ground2);
         this.ground2.body.immovable = true;
         this.ground2.body.allowGravity = false;
@@ -420,7 +420,7 @@ class Level3 extends Phaser.Scene {
         this.lavaplatform.body.allowGravity = false;
         this.lavaplatforms.add(this.lavaplatform);
 
-        this.lavaplatform2 = this.add.tileSprite(1000, 350, tileSize * 2, tileSize, 'lava').setScale(SCALE, SCALE/2);
+        this.lavaplatform2 = this.add.tileSprite(1000, 350, tileSize * 3, tileSize, 'lava').setScale(SCALE, SCALE/2);
         this.physics.add.existing(this.lavaplatform2);
         this.lavaplatform2.body.immovable = true;
         this.lavaplatform2.body.allowGravity = false;
