@@ -6,7 +6,7 @@ Gameplay/Experience requirements:
     - Discrete: Arrow Key Button presses
     - Continuous: Acceleration + Drag player movement and a platform type that requires player to be at max speed while on it
 - **The player’s goal can only be achieved indirectly (by allowing the physics engine to move key objects into position/contact).**: SATISFIED
-    - Player must traverse each level as a mouse to acquire the object and go to the win condition area
+    - Player must traverse each level as a mouse via physics engine movement and collision to acquire the object and go to the win condition area
 - **3+ physics-based gameplay scenes (possibly implemented with a single Phaser Scene subclass).**: SATISFIED
     - Level 1
     - Level 2
